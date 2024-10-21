@@ -8,7 +8,18 @@ const JUMP_VELOCITY = -400.0
 
 const TURN_RATE = 90
 
+func print_stuff():
+	DebugDraw2D.set_text("pos", position)
+	DebugDraw2D.set_text("rotation", rotation)
+	DebugDraw2D.set_text("rotation deg", rad_to_deg(rotation))
+	DebugDraw2D.set_text("transform.x", transform.x)
+	DebugDraw2D.set_text("transform.y", transform.y)
+	DebugDraw2D.set_text("global_transform.x", global_transform.x)
+	DebugDraw2D.set_text("global_transform.y", global_transform.y)
+	DebugDraw2D.set_text("vel", velocity)
+
 func _physics_process(delta: float) -> void:
+	print_stuff()
 	
 	var r = Input.get_axis("turn_left", "turn_right")
 	print(r)
@@ -25,6 +36,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("fire"):
 		var b = bullet_scene.instantiate()
 		b.global_position = bullet_spawn_point.global_position
+		b.global_rotation = bullet_spawn_point.global_rotation
 		get_parent().add_child(b)
 	
 	move_and_slide()

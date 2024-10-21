@@ -6,9 +6,22 @@
 
 [node name="Root" type="Node2D"]
 
-[node name="Main Ship" parent="." instance=ExtResource("1_138v2")]
+[node name="Main Ship" parent="." node_paths=PackedStringArray("bullet_spawn_point") instance=ExtResource("1_138v2")]
+position = Vector2(478, 399)
 script = ExtResource("2_w4xbr")
 bullet_scene = ExtResource("3_tux27")
+bullet_spawn_point = NodePath("Marker2D")
+
+[node name="Sprite2D" parent="Main Ship" index="0"]
+position = Vector2(0, 0)
+
+[node name="CollisionShape2D" parent="Main Ship" index="1"]
+position = Vector2(0, 0)
+
+[node name="Marker2D" parent="Main Ship" index="2"]
+position = Vector2(-4, -166)
 
 [node name="Marker2D2" type="Marker2D" parent="Main Ship"]
 position = Vector2(622, 138)
+
+[editable path="Main Ship"]
