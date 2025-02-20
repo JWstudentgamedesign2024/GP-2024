@@ -110,15 +110,22 @@ func _physics_process(delta: float) -> void:
 			# set explosion color to be the color of the thing I collided with
 			var e = explosion.instantiate()
 			e.modulate = c.get_collider().color
-			
-			get_parent().add_child(e)
-			e.global_position = self.global_position
-			e.emitting = true
-			ufo_count = ufo_count + 1
-			# delete the ufo
 			c.get_collider().queue_free()
-			# respawn the player
 			respawn()
+			
+		if c and c.get_collider().is_in_group("health"):
+			print("I collided")
+			lives += 1
+			c.get_collider().queue_free()
+			
+			
+			
+		
+			
+			# delete the ufo
+			
+			# respawn the player
+			
 		else:
 			velocity = velocity * 0.99
 		
