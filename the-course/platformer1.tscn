@@ -1,0 +1,117 @@
+[gd_scene load_steps=11 format=3 uid="uid://c6jkr2spq7h5f"]
+
+[ext_resource type="Texture2D" uid="uid://bjyue0ar165or" path="res://assets/PNG/Sprites/Station/spaceStation_002.png" id="1_tuvkx"]
+[ext_resource type="Texture2D" uid="uid://c844yfbd26ea8" path="res://sprites/bug.png" id="2_0nau7"]
+[ext_resource type="Texture2D" uid="uid://ndonqscxtoxi" path="res://assets/PNG/Sprites X2/Parts/spaceParts_044.png" id="3_43jer"]
+[ext_resource type="Script" uid="uid://cy8ipx13ij1oj" path="res://enemy_plat.gd" id="4_v350l"]
+[ext_resource type="Texture2D" uid="uid://m8bm3fd6c842" path="res://assets/PNG/Sprites/Building/spaceBuilding_020.png" id="5_pifm5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0nau7"]
+size = Vector2(306.5, 81.75)
+
+[sub_resource type="GDScript" id="GDScript_43jer"]
+script/source = "extends CharacterBody2D
+
+
+const SPEED = 300.0
+const JUMP_VELOCITY = -400.0
+
+
+func _physics_process(delta: float) -> void:
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
+		velocity.y = JUMP_VELOCITY
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction := Input.get_axis(\"ui_left\", \"ui_right\")
+	if direction:
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+	move_and_slide()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d2hnt"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v350l"]
+size = Vector2(58, 38)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7ul8q"]
+radius = 29.4279
+
+[node name="Node2D" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(334, 471)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(-1.5, 0.5)
+scale = Vector2(7.675, 2.82143)
+texture = ExtResource("1_tuvkx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-1.75, -0.75)
+shape = SubResource("RectangleShape2D_0nau7")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(641, 502)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D2"]
+position = Vector2(-1.5, 0.5)
+scale = Vector2(7.675, 2.82143)
+texture = ExtResource("1_tuvkx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(-1.75, -0.75)
+shape = SubResource("RectangleShape2D_0nau7")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(948, 444)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D3"]
+position = Vector2(-1.5, 0.5)
+scale = Vector2(7.675, 2.82143)
+texture = ExtResource("1_tuvkx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(-1.75, -0.75)
+shape = SubResource("RectangleShape2D_0nau7")
+
+[node name="Platplayer" type="CharacterBody2D" parent="."]
+position = Vector2(216, 416)
+script = SubResource("GDScript_43jer")
+
+[node name="Sprite2D" type="Sprite2D" parent="Platplayer"]
+texture = ExtResource("2_0nau7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platplayer"]
+shape = SubResource("RectangleShape2D_d2hnt")
+
+[node name="item" type="Area2D" parent="."]
+position = Vector2(947, 385)
+
+[node name="Sprite2D" type="Sprite2D" parent="item"]
+scale = Vector2(0.68, 0.32)
+texture = ExtResource("3_43jer")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="item"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_v350l")
+
+[node name="enemyPlat" type="CharacterBody2D" parent="."]
+script = ExtResource("4_v350l")
+
+[node name="Sprite2D" type="Sprite2D" parent="enemyPlat"]
+texture = ExtResource("5_pifm5")
+
+[node name="Area2D" type="Area2D" parent="enemyPlat"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemyPlat/Area2D"]
+shape = SubResource("CircleShape2D_7ul8q")
